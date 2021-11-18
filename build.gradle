@@ -1,0 +1,21 @@
+plugins {
+    id 'java'
+}
+
+group 'org.example'
+version '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+sourceSets {
+    main {
+        java {
+            srcDirs = ['src']
+        }
+    }
+}
+dependencies {
+    implementation group: 'guru.nidi', name: 'graphviz-java', version: '0.18.1'
+    implementation group: 'org.jfree', name: 'jfreechart', version: '1.5.0'
+}
