@@ -1,6 +1,7 @@
 import java.io.File;
 import java.io.IOException;
 import java.util.*;
+
 import guru.nidi.graphviz.attribute.Arrow;
 import guru.nidi.graphviz.attribute.Color;
 import guru.nidi.graphviz.engine.Format;
@@ -60,13 +61,25 @@ public class RandomGraph{
                             GraphEdge edge = new GraphEdge(vertices.get(i), vertices.get(j));
                             edge.setCost(random.nextInt(maxCost)+1);
                             edges.add(edge);
+
+                            /*if(vertices.get(i).getRemainingEdgeNum()>0&&vertices.get(j).getRemainingEdgeNum()>0)*/
                             vertices.get(i).addEdge(edge);
                             vertices.get(j).addEdge(edge);
+
+                            //adjust edgesLeft
+
                             for (int k = 0; k < vertices.size(); ++k) {
                                 edgesLeft -= probabilityChart[k][i];
                                 edgesLeft -= probabilityChart[j][k];
-                                probabilityChart[k][i] = vertices.get(k).getRemainingEdgeNum() * vertices.get(i).getRemainingEdgeNum();
-                                probabilityChart[j][k] = vertices.get(j).getRemainingEdgeNum() * vertices.get(k).getRemainingEdgeNum();
+                                //The square of negative numbers is positive
+                                if(vertices.get(k).getRemainingEdgeNum()<=0||vertices.get(i).getRemainingEdgeNum()<=0)
+                                    probabilityChart[k][i] = 0;
+                                else
+                                    probabilityChart[k][i] = vertices.get(k).getRemainingEdgeNum() * vertices.get(i).getRemainingEdgeNum();
+                                if(vertices.get(k).getRemainingEdgeNum()<=0||vertices.get(j).getRemainingEdgeNum()<=0)
+                                    probabilityChart[j][k] = 0;
+                                else
+                                    probabilityChart[j][k] = vertices.get(j).getRemainingEdgeNum() * vertices.get(k).getRemainingEdgeNum();
                                 if(i==j){
                                     probabilityChart[j][i]=0;
                                 }
@@ -108,5 +121,16 @@ public class RandomGraph{
 
     public void setMaxEdgeCost(int cost) {
         maxCost = cost;
+    }
+
+    public GraphVertex getRandomVertex(){
+        return vertices.get(new Random().nextInt(vertices.size()));
+    }
+
+    public void listToConsole() {
+        System.out.print("\n" + vertices.size() + "vertices");
+        for(int i = 0; i < vertices.size(); ++i){
+            vertices.get(i).listToConsole();
+        }
     }
 }

@@ -17,5 +17,5 @@ sourceSets {
 }
 dependencies {
     implementation group: 'guru.nidi', name: 'graphviz-java', version: '0.18.1'
-    implementation group: 'org.jfree', name: 'jfreechart', version: '1.5.0'
+//    implementation group: 'org.jfree', name: 'jfreechart', version: '1.5.0'
 }

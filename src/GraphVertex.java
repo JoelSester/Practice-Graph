@@ -1,21 +1,19 @@
 import java.util.LinkedList;
-import java.util.List;
 
 public class GraphVertex {
     int name;
-    int maxEdges;
+    int preferredEdges;
     LinkedList<GraphEdge> edges = new LinkedList<>();
     public GraphVertex(int vertexName) {
         name = vertexName;
     }
     public void allowEdges(int maxEdges){
-        this.maxEdges = maxEdges;
+        this.preferredEdges = maxEdges;
     }
     public boolean addEdge(GraphEdge edgeToAdd){
-        if(edges.contains(edgeToAdd))
+        if(edges.contains(edgeToAdd)) {
             return false;
-        if(edges.size()>=maxEdges)
-            return false;
+        }
         edges.add(edgeToAdd);
         return true;
     }
@@ -27,7 +25,8 @@ public class GraphVertex {
         return addEdge(new GraphEdge(this, toAdd));
     }
     public int getRemainingEdgeNum(){
-        return maxEdges-edges.size();
+        //System.out.print("\ngetRemainingEdgeNum called " + (preferredEdges - edges.size()) + " edges remaining");
+        return preferredEdges -edges.size();
     }
 
     public boolean isConnected(GraphVertex graphVertex) {
@@ -52,5 +51,12 @@ public class GraphVertex {
         if(edges.size()<=i)
             return null;
         return edges.get(i);
+    }
+
+    public void listToConsole() {
+        System.out.print("\n\nVertex " + name + " Has " + edges.size() + " Edges: ");
+        for(int i = 0; i < edges.size(); ++i){
+            System.out.print(edges.get(i).getOtherEnd(this).name + ", ");
+        }
     }
 }
